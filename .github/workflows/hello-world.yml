@@ -1,21 +1,34 @@
-name: KM
+name: ENV-VARS
 
-on: [push]
-
-
+on:
+    workflow_dispatch:
+      inputs:
+        logLevel:
+          description: 'Log level'
+          required: true
+          default: 'warning'
+          type: choice
+          options:
+            - info
+            - warning
+            - debug
+        print_tags:
+          description: 'True to print to STDOUT'
+          required: true
+          type: boolean
+        tags:
+          description: 'Test scenario tags'
+          required: true
+          type: string
+        environment:
+          description: 'Environment to run tests against'
+          type: environment
+          required: true
+  
 jobs:
-  greet:
-    runs-on: ubuntu-latest
-    env:
-        MY_ENV: "John Doe"
-    steps:
-        - name: Greet the User
-          run: echo "Hello World!"
-        # Enumere todos los archivos en el directorio actual para la comparación antes y después actions/checkout@v2.
-        - run: ls -l
-        - uses: actions/checkout@v2
-        - name: Run a multi-line script
-          run: |
-                echo "Hello $MY_ENV"
-                echo "Hello $GITHUB_ACTOR"
-
+    print-tag:
+        runs-on: ubuntu-latest
+        if:  ${{ inputs.print_tags }} 
+        steps:
+            - name: Print the input tag to STDOUT
+              run: echo  The tags are ${{ inputs.tags }} 
