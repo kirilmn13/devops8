@@ -1,19 +1,15 @@
 name: Hello World Innotech
 
-on:
-  workflow_dispatch:
+on: [push]
 
 jobs:
   greet:
     runs-on: ubuntu-latest
     steps:
-      - name: Greet the User
-        run: echo "Hello World!"
-
-    steps:
         - name: Greet the User
-            run: echo "Hello World!"
+          run: echo "Hello World!"
         # Enumere todos los archivos en el directorio actual para la comparación antes y después actions/checkout@v2.
         - run: ls -l
         - uses: actions/checkout@v2
         - run: ls -l
+
